@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boge.demo.mapper.StocklogDOMapper">
+  <resultMap id="BaseResultMap" type="com.boge.demo.dataobject.StocklogDO">
+    <id column="stocklogid" jdbcType="VARCHAR" property="stocklogid" />
+    <result column="item_id" jdbcType="INTEGER" property="itemId" />
+    <result column="amount" jdbcType="INTEGER" property="amount" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    stocklogid, item_id, amount, status
+  </sql>
+
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from stocklog
+    where stocklogid = #{stocklogid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from stocklog
+    where stocklogid = #{stocklogid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.boge.demo.dataobject.StocklogDO">
+    insert into stocklog (stocklogid, item_id, amount, 
+      status)
+    values (#{stocklogid,jdbcType=VARCHAR}, #{itemId,jdbcType=INTEGER}, #{amount,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.boge.demo.dataobject.StocklogDO">
+    insert into stocklog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stocklogid != null">
+        stocklogid,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stocklogid != null">
+        #{stocklogid,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.boge.demo.dataobject.StocklogDO">
+    update stocklog
+    <set>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where stocklogid = #{stocklogid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.boge.demo.dataobject.StocklogDO">
+    update stocklog
+    set item_id = #{itemId,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where stocklogid = #{stocklogid,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

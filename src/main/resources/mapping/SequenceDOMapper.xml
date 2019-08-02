@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boge.demo.mapper.SequenceDOMapper">
+  <resultMap id="BaseResultMap" type="com.boge.demo.dataobject.SequenceDO">
+    <id column="name" jdbcType="VARCHAR" property="name" />
+    <result column="currentValue" jdbcType="INTEGER" property="currentvalue" />
+    <result column="step" jdbcType="INTEGER" property="step" />
+    <result column="currentDate" jdbcType="TIMESTAMP" property="currentdate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    name, currentValue, step, currentDate
+  </sql>
+
+
+  <!--根据日期更新日期字段-->
+  <update id="updateCurrentDate">
+    update sequence
+    set currentDate=#{param2},currentValue=0
+    where name = #{param1}
+  </update>
+
+
+
+
+
+
+
+
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sequence
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sequence
+    where name = #{name,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.boge.demo.dataobject.SequenceDO">
+    insert into sequence (name, currentValue, step, 
+      currentDate)
+    values (#{name,jdbcType=VARCHAR}, #{currentvalue,jdbcType=INTEGER}, #{step,jdbcType=INTEGER}, 
+      #{currentdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.boge.demo.dataobject.SequenceDO">
+    insert into sequence
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="currentvalue != null">
+        currentValue,
+      </if>
+      <if test="step != null">
+        step,
+      </if>
+      <if test="currentdate != null">
+        currentDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="currentvalue != null">
+        #{currentvalue,jdbcType=INTEGER},
+      </if>
+      <if test="step != null">
+        #{step,jdbcType=INTEGER},
+      </if>
+      <if test="currentdate != null">
+        #{currentdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.boge.demo.dataobject.SequenceDO">
+    update sequence
+    <set>
+      <if test="currentvalue != null">
+        currentValue = #{currentvalue,jdbcType=INTEGER},
+      </if>
+      <if test="step != null">
+        step = #{step,jdbcType=INTEGER},
+      </if>
+      <if test="currentdate != null">
+        currentDate = #{currentdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.boge.demo.dataobject.SequenceDO">
+    update sequence
+    set currentValue = #{currentvalue,jdbcType=INTEGER},
+      step = #{step,jdbcType=INTEGER},
+      currentDate = #{currentdate,jdbcType=TIMESTAMP}
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
+</mapper>
